@@ -74,7 +74,7 @@ void main()
     while(1)
     {
         
-        printf("1. Insert from end")
+        printf("1. Insert from end");
         printf("2. Insert from Start \n");
         printf("3. Delete from Start\n");
         printf("4. Delete from End\n");
