@@ -2,6 +2,7 @@
 #include<stdlib.h>
 
 int value;
+int pos;
 
 
 struct node
@@ -16,23 +17,73 @@ void insertStart(int value)
 {
 
   struct node* newnode = (struct node*) malloc(sizeof(struct node));
-
   newnode->data = value;
   newnode->next = head;
   head = newnode; 
 }
+
+
 void insertEnd(int value)
 {
     temp  = head;
     struct node *newnode = (struct node*) malloc(sizeof(struct node));
-     while(temp->next != NULL)
+      if(head == NULL)
     {
-        temp = temp -> next;
+        newnode->data = value;
+        newnode->next = head;
+        head = newnode;
     }
-    temp -> next =  newnode;
-    newnode->data = value;
-    newnode->next = NULL;
+   else
+   {
+        while(temp->next != NULL)
+        {
+            temp = temp -> next;
+        }
+        temp -> next =  newnode;
+        newnode->data = value;
+        newnode->next = NULL;
+   }
+    
 
+}
+
+
+int insertacc(int value)
+{
+    temp  = head;
+ 
+    struct node *newnode = (struct node*) malloc(sizeof(struct node));
+    if(head == NULL)
+    {
+        newnode->data = value;
+        newnode->next = head;
+        head = newnode;
+   }
+   else
+   {
+       while(temp->next != NULL)
+        {
+        if(temp->data <= value)
+        {
+                newnode->next = temp->next;
+                temp->next = newnode;
+                newnode->data = value;
+                return 0;
+        }
+        else if(temp->next == NULL)
+        {
+                temp -> next =  newnode;
+                newnode->data = value;
+                newnode->next = NULL;
+                return 0;
+        }
+        else
+        {
+                temp = temp -> next;
+        }
+        }
+   }
+     
 }
 
 void deleteb()
@@ -43,18 +94,28 @@ void deleteb()
     free(temp);
 }
 
-void deletee()
+int deletee()
 {
     temp = head;
     struct node *prev;
+    printf("Enter position/data:");
+    scanf("%d",&pos);
     while(temp->next != NULL)
     {
-        prev = temp;
-        temp = temp -> next;
+        if(temp->data == pos)
+        {
+            prev = temp;
+            prev -> next = temp->next;
+            printf("Deleted %d \n",prev->data);
+            free(prev);
+            return 0;
+        }
+        else
+        {
+            temp = temp->next;
+        }
     }
-    prev -> next = NULL;
-    printf("Deleted %d \n",temp->data);
-    free(temp);
+    
 }
 
 void display()
@@ -74,12 +135,13 @@ void main()
     while(1)
     {
         
-        printf("1. Insert from end\n");
+        printf("\n1. Insert from end\n");
         printf("2. Insert from Start \n");
-        printf("3. Delete from Start\n");
-        printf("4. Delete from End\n");
-        printf("5. Display\n");
-        printf("6. Exit\n");
+        printf("3. Insert in ascending order (according to data)\n");
+        printf("4. Delete from Start\n");
+        printf("5. Delete from End\n");
+        printf("6. Display\n");
+        printf("7. Exit\n");
         printf("Enter choice:");
         scanf("%d",&choice);
         switch(choice)
@@ -92,13 +154,17 @@ void main()
                     scanf("%d",&value);
                     insertStart(value);
                     break;
-            case 3: deleteb();
+            case 3: printf("Enter value: ");
+                    scanf("%d",&value);
+                    insertacc(value);
                     break;       
-            case 4: deletee();
+            case 4: deleteb();
                     break;         
-            case 5:  display();
+            case 5:  deletee();
                     break;
-            case 6: exit(0);
+            case 6: display();
+                    break;
+            case 7: exit(0);
 
         }
     }
